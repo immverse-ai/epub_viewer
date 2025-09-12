@@ -21,6 +21,7 @@ class EpubViewer extends StatefulWidget {
     this.displaySettings,
     this.selectionContextMenu,
     this.onAnnotationClicked,
+    this.onTagClicked,
   });
 
   ///Epub controller to manage epub
@@ -51,6 +52,8 @@ class EpubViewer extends StatefulWidget {
 
   ///Callback for handling annotation click (Highlight and Underline)
   final ValueChanged<String>? onAnnotationClicked;
+
+  final ValueChanged<Map<String, dynamic>>? onTagClicked; // 👈 NEW
 
   ///context menu for text selection
   ///if null, the default context menu will be used
@@ -128,6 +131,17 @@ class _EpubViewerState extends State<EpubViewer> {
               List<EpubSearchResult>.from(
                   searchResult.map((e) => EpubSearchResult.fromJson(e))));
         });
+
+    webViewController?.addJavaScriptHandler(
+      handlerName: "tagClicked",
+      callback: (data) {
+        debugPrint("FLUTTER TAG CLICK: $data");
+        if (data.isNotEmpty) {
+          final tagInfo = Map<String, dynamic>.from(data[0]);
+          widget.onTagClicked?.call(tagInfo);
+        }
+      },
+    );
 
     ///current cfi callback
     webViewController?.addJavaScriptHandler(

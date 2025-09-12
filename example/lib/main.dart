@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 EpubViewer(
                   epubSource: EpubSource.fromUrl(
-                      'https://github.com/IDPF/epub3-samples/releases/download/20230704/accessible_epub_3.epub'),
+                      'https://bharatvarsh-v1.s3.ap-south-1.amazonaws.com/chapter-wise-epub/references.epub'),
                   epubController: epubController,
                   displaySettings: EpubDisplaySettings(
                       flow: EpubFlow.paginated,
@@ -100,6 +100,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       snap: true,
                       theme: EpubTheme.light(),
                       allowScriptedContent: true),
+                  onTagClicked: (tagInfo) {
+                    print("Clicked Tag: ${tagInfo['tag']}");
+                    print("ID: ${tagInfo['id']}");
+                    print("Text: ${tagInfo['text']}");
+                    print("HTML: ${tagInfo['html']}");
+                  },
                   selectionContextMenu: ContextMenu(
                     menuItems: [
                       ContextMenuItem(
