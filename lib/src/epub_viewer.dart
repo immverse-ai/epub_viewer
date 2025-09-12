@@ -144,12 +144,33 @@ class _EpubViewerState extends State<EpubViewer> {
     );
 
     ///current cfi callback
+    // webViewController?.addJavaScriptHandler(
+    //     handlerName: "relocated",
+    //     callback: (data) {
+    //       var location = data[0];
+    //       widget.onRelocated?.call(EpubLocation.fromJson(location));
+    //     });
+
     webViewController?.addJavaScriptHandler(
-        handlerName: "relocated",
-        callback: (data) {
-          var location = data[0];
-          widget.onRelocated?.call(EpubLocation.fromJson(location));
-        });
+      handlerName: "relocated",
+      callback: (data) {
+        if (data.isEmpty) return;
+
+        final payload = Map<String, dynamic>.from(data[0]);
+
+        // Parse location
+        final location = EpubLocation.fromJson(
+            Map<String, dynamic>.from(payload["location"]));
+
+        // Extract HTML
+        final html = payload["html"] as String;
+
+        // Call onRelocated callback with extended info
+        widget.onRelocated
+            ?.call(location.copyWith(html: html) // 👈 we'll extend EpubLocation
+                );
+      },
+    );
 
     webViewController?.addJavaScriptHandler(
         handlerName: "readyToLoad",

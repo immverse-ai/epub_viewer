@@ -129,6 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   onRelocated: (value) {
                     print("Reloacted to $value");
+                    print("Reloacted to ${value.html}");
                     setState(() {
                       progress = value.progress;
                     });

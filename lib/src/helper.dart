@@ -57,15 +57,38 @@ class EpubLocation {
 
   /// Progress percentage of location, value between 0.0 and 1.0
   double progress;
+  final String? html;
 
   EpubLocation({
     required this.startCfi,
     required this.endCfi,
     required this.progress,
+    this.html,
   });
-  factory EpubLocation.fromJson(Map<String, dynamic> json) =>
-      _$EpubLocationFromJson(json);
-  Map<String, dynamic> toJson() => _$EpubLocationToJson(this);
+  // factory EpubLocation.fromJson(Map<String, dynamic> json) =>
+  //     _$EpubLocationFromJson(json);
+  // Map<String, dynamic> toJson() => _$EpubLocationToJson(this);
+  factory EpubLocation.fromJson(Map<String, dynamic> json) {
+    return EpubLocation(
+      startCfi: json['startCfi'] as String,
+      endCfi: json['endCfi'] as String,
+      progress: (json['progress'] as num).toDouble(),
+    );
+  }
+
+  EpubLocation copyWith({
+    String? startCfi,
+    String? endCfi,
+    double? progress,
+    String? html,
+  }) {
+    return EpubLocation(
+      startCfi: startCfi ?? this.startCfi,
+      endCfi: endCfi ?? this.endCfi,
+      progress: progress ?? this.progress,
+      html: html ?? this.html,
+    );
+  }
 }
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
@@ -154,7 +177,6 @@ class EpubTextSelection {
   });
 }
 
-
 /// Abstract interface for loading epub data
 abstract class EpubDataLoader {
   Future<Uint8List> loadData();
@@ -163,9 +185,9 @@ abstract class EpubDataLoader {
 /// File system epub loader implementation
 class FileEpubLoader implements EpubDataLoader {
   final File file;
-  
+
   FileEpubLoader(this.file);
-  
+
   @override
   Future<Uint8List> loadData() {
     return file.readAsBytes();
@@ -176,9 +198,9 @@ class FileEpubLoader implements EpubDataLoader {
 class UrlEpubLoader implements EpubDataLoader {
   final String url;
   final Map<String, String>? headers;
-  
+
   UrlEpubLoader(this.url, {this.headers});
-  
+
   @override
   Future<Uint8List> loadData() async {
     try {
@@ -198,9 +220,9 @@ class UrlEpubLoader implements EpubDataLoader {
 /// Asset epub loader implementation
 class AssetEpubLoader implements EpubDataLoader {
   final String assetPath;
-  
+
   AssetEpubLoader(this.assetPath);
-  
+
   @override
   Future<Uint8List> loadData() async {
     final byteData = await rootBundle.load(assetPath);
