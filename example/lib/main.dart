@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 EpubViewer(
                   epubSource: EpubSource.fromUrl(
-                      'https://bharatvarsh-v1.s3.ap-south-1.amazonaws.com/chapter-wise-epub/references.epub'),
+                      'your url'),
                   epubController: epubController,
                   displaySettings: EpubDisplaySettings(
                       flow: EpubFlow.paginated,
