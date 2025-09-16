@@ -166,9 +166,10 @@ class _EpubViewerState extends State<EpubViewer> {
         final html = payload["html"] as String;
 
         // Call onRelocated callback with extended info
-        widget.onRelocated
-            ?.call(location.copyWith(html: html) // 👈 we'll extend EpubLocation
-                );
+        widget.onRelocated?.call(location.copyWith(
+          html: html,
+        ) // 👈 we'll extend EpubLocation
+            );
       },
     );
 

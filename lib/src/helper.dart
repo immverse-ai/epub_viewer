@@ -58,12 +58,16 @@ class EpubLocation {
   /// Progress percentage of location, value between 0.0 and 1.0
   double progress;
   final String? html;
+  final int? page;
+  final int? totalPages;
 
   EpubLocation({
     required this.startCfi,
     required this.endCfi,
     required this.progress,
     this.html,
+    this.page,
+    this.totalPages,
   });
   // factory EpubLocation.fromJson(Map<String, dynamic> json) =>
   //     _$EpubLocationFromJson(json);
@@ -73,20 +77,26 @@ class EpubLocation {
       startCfi: json['startCfi'] as String,
       endCfi: json['endCfi'] as String,
       progress: (json['progress'] as num).toDouble(),
+      html: json['html'],
+      page: json['page'],
+      totalPages: json['totalPages'],
     );
   }
 
-  EpubLocation copyWith({
-    String? startCfi,
-    String? endCfi,
-    double? progress,
-    String? html,
-  }) {
+  EpubLocation copyWith(
+      {String? startCfi,
+      String? endCfi,
+      double? progress,
+      String? html,
+      int? page,
+      int? totalPages}) {
     return EpubLocation(
       startCfi: startCfi ?? this.startCfi,
       endCfi: endCfi ?? this.endCfi,
       progress: progress ?? this.progress,
       html: html ?? this.html,
+      page: page ?? this.page,
+      totalPages: totalPages ?? this.totalPages,
     );
   }
 }

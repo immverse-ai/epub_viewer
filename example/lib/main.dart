@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 EpubViewer(
                   epubSource: EpubSource.fromUrl(
-                      'your url'),
+                      'Epub URL'),
                   epubController: epubController,
                   displaySettings: EpubDisplaySettings(
                       flow: EpubFlow.paginated,
@@ -128,8 +128,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     print('Epub loaded');
                   },
                   onRelocated: (value) {
-                    print("Reloacted to $value");
-                    print("Reloacted to ${value.html}");
+                    print("Reloacted to ${value.startCfi}. ${value.endCfi}");
+                    print("Reloacted to progress ${value.progress}");
+                    print("Reloacted to page number ${value.page} of ${value.totalPages}");
+
+                    if(value.progress == 1.0 && value.page == value.totalPages){
+                      print("==========> Last Page");
+                    }
+
+                    if(value.progress == 0.0 && value.page == 1){
+                      print("==========> First Page");
+                    }
+
                     setState(() {
                       progress = value.progress;
                     });
@@ -142,12 +152,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     print(textSelectionCfi);
                   },
                 ),
-                Visibility(
-                  visible: isLoading,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
+                // Visibility(
+                //   visible: isLoading,
+                //   child: const Center(
+                //     child: CircularProgressIndicator(),
+                //   ),
+                // )
               ],
             ),
           ),
